@@ -1,0 +1,6 @@
+# ignore everything
+*
+# allow specific things
+!*.tex
+!*.pdf
+!.gitignore
