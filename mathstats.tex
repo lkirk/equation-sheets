@@ -1,6 +1,6 @@
 \documentclass[twocolumn]{amsart}
 \usepackage[pdftex, a4paper, margin=0.7cm, nohead, nofoot]{geometry}
-\usepackage[utopia]{mathdesign}
+% \usepackage[utopia]{mathdesign}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{bbm}
@@ -14,6 +14,13 @@
 \newcommand{\Cov}{\operatorname{Cov}}
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Beta}{\operatorname{Beta}}
+
+% slight hack to make the independence symbol
+% taken from here: https://tex.stackexchange.com/a/79436
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern3mu{#1#2}}}
+
 \setlength{\parskip}{0pt}
 \setlength{\parindent}{0pt}
 \setlength{\TPHorizModule}{30mm}
@@ -97,7 +104,12 @@
   \Var[aX+bY] = a^2\Var[X] + b^2 Var[Y] + 2ab\Cov[X,Y]
 \end{equation*}
 
-\section*{Jacobian}
+\section*{Calc}
+By parts
+\begin{equation*}
+  \int u\,dv = uv-\int v\,du
+\end{equation*}
+Jacobian
 \begin{equation*}
 \mathbb{J}=\begin{vmatrix}
 \frac{\partial x}{\partial u}\frac{\partial x}{\partial v} \\
@@ -109,17 +121,59 @@
   \iint_{A}g(x,y)\,dx\,dy = \iint_{B}g(x(u,v),y(u,v))|J(u,v)|\,du\,dv
 \end{equation*}
 
-\section*{Calc}
-\begin{equation*}
-  \int u\,dv = uv-\int v\,du
-\end{equation*}
-
 \section*{Distributions}
+\textbf{Distributions arising from the Normal}
+\begin{equation*}
+  \Gamma(\frac{1}{2},\frac{k}{2})
+  \rightarrow \chi_{k}^{2}
+  \rightarrow t_{k}
+  \stackrel{D}{=} \frac{\mathcal{N}(O, 1)}{\sqrt{\chi_{k}^{2}/k}}
+  \rightarrow F_{m,k}
+  \stackrel{D}{=} \frac{\chi_{m}^{2}/m}{\chi_{k}^{2}/k}
+\end{equation*}
+\begin{equation*}
+  F_{1,k} \stackrel{D}{=} t_{k}^{2}
+\end{equation*}
+\textbf{Gamma}
+\begin{equation*}
+  X \sim \Gamma(\lambda,p) \Longleftrightarrow \lambda X \sim \Gamma(1, p)
+\end{equation*}
+\begin{equation*}
+  X \sim \Gamma(\lambda,p) \overset{c>0}{\Longrightarrow} c X \sim \Gamma(\frac{\lambda}{c},p)
+\end{equation*}
+\begin{equation*}
+  Theorem (\Gamma(\lambda, p) + \Gamma(\lambda, q) \overset{\independent}{=} \Gamma(\lambda,p+q)):
+\end{equation*}
+\begin{equation*}
+  \begin{cases}
+    X_{1} \sim \Gamma(\lambda,p) \\
+    X_{2} \sim \Gamma(\lambda,q) \\
+    X_{1} \independent X_{2}
+  \end{cases}
+  \Longrightarrow
+  \begin{cases}
+    Y_{1} = X_{1} + X_{2} \sim \Gamma(\lambda, p + q) \\
+    Y_{2} = \frac{X_{1}}{X_{1} + X_{2}} \sim \Beta(p, q) \\
+    Y_{1} \independent Y_{2}
+  \end{cases}
+\end{equation*}
+\textbf{Chi Squared}\\
+Definition \\
+if \(\{Z_{1},\ldots,Z_{k}\} \overset{i.i.d.}{\sim} \mathcal{N}(0,1)\), then the distribution of
+\begin{equation*}
+  V = Z_{1}^{2}+\cdots+Z_{k}^{2}
+\end{equation*}
+is called the \(\chi_{k}^{2}\) distribution with \(k\) degrees of freedom
+PDF of \(chi_{k}^{2}\):
+\begin{equation*}
+  f_{V}(v) = \frac{v^{(k-2)/2}e^{-v/2}}{2^{k/2}\Gamma(k/2)} \sim \Gamma(\frac{1}{2},\frac{k}{2}), v\geq0
+\end{equation*}
 Chi squared distribution with k=2 is a gamma/exp with the following params
 \begin{equation*}
   \chi_{2}^{2} = \Gamma(\frac{1}{2},1) = \Exp(\frac{1}{2})
 \end{equation*}
-T Distribution
+\textbf{T Distribution} \\
+if
 \begin{equation*}
   Z \sim \mathcal{N}(0, 1)
 \end{equation*}
@@ -127,8 +181,18 @@ T Distribution
   V \sim \chi_{k}^{2}
 \end{equation*}
 \begin{equation*}
-  Z \perp V
+  Z \independent V
 \end{equation*}
+then
+\begin{equation*}
+  Q = \frac{Z}{\sqrt{\frac{V}{k}}}
+\end{equation*}
+which is the Student's t distribution with k degrees of freedom \\
+PDF of \(t_{k}\):
+\begin{equation*}
+  f_{Q}(q) = c_{1}{(1+\frac{q^{2}}{k})}^{-(k+1)/2}, q \in \mathbb{R}
+\end{equation*}
+where \(c_{1}>0\) is a constant
 
 % U SUBST
 
