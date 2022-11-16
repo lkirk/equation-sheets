@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+FILE="$1"
+
+while true; do
+    fswatch --one-event "$FILE" \
+        | sort -u \
+        | xargs -n1 sh -c "pdflatex $FILE || true"
+done

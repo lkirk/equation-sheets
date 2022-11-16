@@ -4,3 +4,4 @@
 !*.tex
 !*.pdf
 !.gitignore
+!compile-loop
