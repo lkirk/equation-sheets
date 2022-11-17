@@ -12,6 +12,7 @@
 
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Corr}{\operatorname{Corr}}
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\Exp}{\operatorname{Exp}}
 \newcommand{\Beta}{\operatorname{Beta}}
@@ -36,9 +37,6 @@
 
 % More probability stuff
 % https://wjgan.com/posts/latex.html
-\usepackage{tikz}
-\usetikzlibrary{calc,matrix}
-
 
 \begin{document}
 \pagestyle{empty}
@@ -69,6 +67,39 @@
 \begin{equation*}
   \E[X^n] = \sum_{x:f(x)>0}x^{n}f(x)
 \end{equation*}
+Conditional expectation
+\begin{equation*}
+  \E[Y|X=x] = \int y f_{y|x}(y|x)dy
+\end{equation*}
+\begin{equation*}
+  \E[g(Y)|X=x] = \int g(y) f_{y|x}(y|x)dy
+\end{equation*}
+Law of iterated expectation
+\begin{equation*}
+  \E_{X}[E_{Y|X}\{g(Y)|X\}] = E[g(Y)]
+\end{equation*}
+If \(X \independent Y\), then
+\begin{equation*}
+  E[g(Y) | X=x] = E[g(Y)]
+\end{equation*}
+% or
+% \begin{equation*}
+%   \E_
+% \end{equation*}
+% or
+% \begin{equation*}
+  
+% \end{equation*}
+Not well defined (cauchy)
+\begin{equation*}
+  E[X]=E[X_{+}] - E[X_{-}] = \infty - \infty
+\end{equation*}
+Well defined (cauchy)
+\begin{equation*}
+  E[|X|] = \infty
+\end{equation*}
+
+
 
 \section*{Basics}
 
@@ -104,10 +135,27 @@
   \Var[aX+bY] = a^2\Var[X] + b^2 Var[Y] + 2ab\Cov[X,Y]
 \end{equation*}
 
+\section*{Correlation}
+\begin{equation*}
+  \Corr(X, Y) = \frac{\Cov(X, Y)}{\sqrt{\Var(X)}\sqrt{Var(Y)}}
+\end{equation*}
+
+
 \section*{Calc}
 By parts
 \begin{equation*}
   \int u\,dv = uv-\int v\,du
+\end{equation*}
+Chain rule
+\begin{equation*}
+  f(g(x))' = f'(g(x))g'(x)
+\end{equation*}
+Product rule
+\begin{equation*}
+  (u \cdot v)' = u' \cdot v + u \cdot v'
+\end{equation*}
+\begin{equation*}
+  (\frac{f(x)}{g(x)})' = \frac{f'(x)g(x) - f(x)g'(x)}{g(x)^2}
 \end{equation*}
 Jacobian
 \begin{equation*}
@@ -194,42 +242,139 @@ PDF of \(t_{k}\):
 \end{equation*}
 where \(c_{1}>0\) is a constant
 
-% U SUBST
+\textbf{F Distribution} \\
+\begin{equation*}
+  V \sim \chi^{2}_{m}
+\end{equation*}
+\begin{equation*}
+  W \sim \chi^{2}_{k}
+\end{equation*}
+\begin{equation*}
+  V \independent W
+\end{equation*}
+Then the distribution of
+\begin{equation*}
+  S = \frac{V/m}{W/k}
+\end{equation*}
+is called the Fisher distribution with m (numerator) and k (denominator) degrees of freedom
+\(S\) has the PDF:
+\begin{equation*}
+  f_{S}(s) = c_{2}s^{(m-2)/2}(1+\frac{m}{k}s)^{-(k+m)/2},s>0
+\end{equation*}
+Special case:
+if \(m=1\), then
+\begin{equation*}
+  F_{m,k}=F{1,k} \stackrel{D}{=} t^{2}_{k}
+\end{equation*}
 
-\section*{Linear Algebra}
-\begin{center}
-  Determinant
 
-  \begin{tikzpicture}[>=stealth]
-    \matrix [%
-    matrix of math nodes,
-    column sep=1em,
-    row sep=1em
-    ] (sarrus) {%
-      a_{11} & a_{12} & a_{13} & a_{11} & a_{12} \\
-      a_{21} & a_{22} & a_{23} & a_{21} & a_{22} \\
-      a_{31} & a_{32} & a_{33} & a_{31} & a_{32} \\
-    };
+\textbf{Bivariate Normal} \\
+if
+\begin{equation*}
+  \textbf{X} \sim \mathcal{N}(\mu, \Sigma)
+\end{equation*}
+then a bivariate normal vector \(\textbf{X} = (X_{1},X_{2})^T\) has the pdf
+\begin{equation*}
+  f_{\textbf{X}}(\textbf{x}) = \frac{1}{2\pi\sqrt{\det(\Sigma)}}e^{-\frac{1}{2}{(\textbf{x}-\mu)}^{T}\Sigma^-1(\textbf{x}-\mu)}
+\end{equation*}
 
-    \path ($(sarrus-1-1.north west)-(0.5em,0)$) edge ($(sarrus-3-1.south west)-(0.5em,0)$)
-    ($(sarrus-1-3.north east)+(0.5em,0)$) edge ($(sarrus-3-3.south east)+(0.5em,0)$)
-    (sarrus-1-1)                          edge            (sarrus-2-2)
-    (sarrus-2-2)                          edge[->]        (sarrus-3-3)
-    (sarrus-1-2)                          edge            (sarrus-2-3)
-    (sarrus-2-3)                          edge[->]        (sarrus-3-4)
-    (sarrus-1-3)                          edge            (sarrus-2-4)
-    (sarrus-2-4)                          edge[->]        (sarrus-3-5)
-    (sarrus-3-1)                          edge[dashed]    (sarrus-2-2)
-    (sarrus-2-2)                          edge[->,dashed] (sarrus-1-3)
-    (sarrus-3-2)                          edge[dashed]    (sarrus-2-3)
-    (sarrus-2-3)                          edge[->,dashed] (sarrus-1-4)
-    (sarrus-3-3)                          edge[dashed]    (sarrus-2-4)
-    (sarrus-2-4)                          edge[->,dashed] (sarrus-1-5);
+\begin{equation*}
+  \Sigma =
+  \begin{pmatrix}
+    \sigma_{1}^2 & \rho \sigma_{1} \sigma_{2} \\
+    \rho \sigma_{1} \sigma_{2} & \sigma_{2}^2
+  \end{pmatrix}
+\end{equation*}
 
-    \foreach \c in {1,2,3} {\node[anchor=south] at (sarrus-1-\c.north) {$+$};};
-    \foreach \c in {1,2,3} {\node[anchor=north] at (sarrus-3-\c.south) {$-$};};
-  \end{tikzpicture}
-\end{center}
+
+linear transforms
+\begin{equation*}
+  C\textbf{X} + \textbf{v} \sim \mathcal{N}(C\mu, C \Sigma C^T)
+\end{equation*}
+\begin{equation*}
+  \E[\textbf{X}] = C\boldsymbol{\mu}
+\end{equation*}
+
+For \(\textbf{X} = (X_{1},X_{2})^T \sim \) bivariate Normal, if \(\rho = 0\), then
+\begin{equation*}
+  cov(X_{1},X_{2}) = 0 \Longleftrightarrow X_{1} \independent X_{2}
+\end{equation*}
+
+Conditional pdf
+\begin{equation*}
+  X_{2} | X_{1} = x_{1} \sim \mathcal{N}(\mu_{2} + \rho\frac{\sigma_{2}}{\sigma_{1}}(x_{1}-\mu_{1}),\sigma_{2}^{2}(1-\rho^{2}))
+\end{equation*}
+
+And by definition
+\begin{equation*}
+  f_{X_{2}|X_{1}}(x_{2}|x_{1}) = \frac{f_{X_{1},X_{2}}(x_{1},x_{2})}{f_{X_{1}}(x_{1})}
+\end{equation*}
+
+Regression line
+\begin{equation*}
+  \E[X_{2}|X_{1}] = \mu_{2} + \rho\frac{\sigma_{2}}{\sigma_{1}}(X_{1} - \mu_{1})
+\end{equation*}
+
+\textbf{Multivariate Normal}
+\begin{equation*}
+  \textbf{X} =
+  \begin{pmatrix}
+    \boldsymbol{X_{1}} \\
+    \boldsymbol{X_{2}}
+  \end{pmatrix}
+  \sim
+  \mathcal{N}
+  \begin{pmatrix}
+    \begin{pmatrix}
+      \mu_{1} \\
+      \mu_{2}
+    \end{pmatrix}
+    \begin{pmatrix}
+      \Sigma_{11} & \Sigma_{12} \\
+      \Sigma_{21} & \Sigma_{22}
+    \end{pmatrix}
+  \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+  \boldsymbol{X_{2}} | \boldsymbol{X_{1}} \sim \mathcal{N}(\mu_{2}+\Sigma_{21}\Sigma_{11}^{-1}(\boldsymbol{X_{1}} - \mu_{1}),\Sigma_{22} - \Sigma_{21}\Sigma_{11}^{-1}\Sigma_{12})
+\end{equation*}
+
+\section*{Convolution}
+If \(X \independent Y\), then \(Z = X + Y\) has the PDF
+\begin{equation*}
+  f_{Z}(z) = \int_{-\infty}^{+\infty} f_{X}(x) f_{Y}(z-x) dx = \int_{-\infty}^{+\infty} f_{X}(z-y) f_{Y}(y) dy
+\end{equation*}
+
+\section*{Stein's Lemma}
+If:\\
+function \(g(z)\) is differentiable\\
+and \(\lim\limits_{z\to-\infty} g(z)\phi(z) = 0\) and \(\lim\limits_{z\to+\infty} g(z)\phi(z) = 0\) \\
+Then for \(Z\sim\mathcal{N}(0, 1)\):
+\begin{equation*}
+  \E[Z g(Z)] = \Cov(Z, g(Z)) = \E[g'(Z)]
+\end{equation*}
+\textbf{Applications}\\
+For \(Z\sim\mathcal{N}(0,1)\):
+\begin{equation*}
+  \E[Z^{2k}] = (2k - 1)!!
+\end{equation*}
+if \(\lim\limits_{z\to\pm\infty} m(\mu + \sigma z)\phi(z)=0\), then:
+\begin{equation*}
+  Cov(X,m(X)) = \sigma^{2}\E[m'(X)]
+\end{equation*}
+
+\section*{CLT}
+Suppose \(\{X_{1},\ldots,X_{n}\} \overset{i.i.d.}{\sim} X\), with \(\mu = \E[X]\) and \(\sigma^{2} = \Var(X) \in (0, \infty)\). Define \(Z_{n}=\sqrt{n}\frac{\overline{X}_{n}-\mu}{\sigma}\). Then
+\begin{equation*}
+  Z_{n} \overset{D}{\longrightarrow} Z\sim\mathcal{N}(0,1)
+\end{equation*}
+
+\section*{LLN}
+Suppose \(\{X_{1},\ldots,X_{n}\} \overset{i.i.d.}{\sim} X\), with \(\mu = \E[X]\). Then
+\begin{equation*}
+  \overline{X}_{n} \overset{D}{\longrightarrow} \mu
+\end{equation*}
 
 
 \end{document}
