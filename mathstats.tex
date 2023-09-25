@@ -341,6 +341,10 @@ Regression line
 \end{equation*}
 
 \section*{Convolution}
+If \(X \independent Y\), then \(Z = X + Y\) has the PMF
+\begin{equation*}
+  f_{Z}(z) = \sum_{x}{f_{X}(x)f_{Y}(z-x)} = \sum_{y}{f_{X}(z-y)f_{Y}(y)}
+\end{equation*}
 If \(X \independent Y\), then \(Z = X + Y\) has the PDF
 \begin{equation*}
   f_{Z}(z) = \int_{-\infty}^{+\infty} f_{X}(x) f_{Y}(z-x) dx = \int_{-\infty}^{+\infty} f_{X}(z-y) f_{Y}(y) dy
