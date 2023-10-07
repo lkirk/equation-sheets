@@ -1,0 +1,175 @@
+\documentclass[twocolumn]{amsart}
+\usepackage[pdftex, a4paper, margin=0.7cm, nohead, nofoot]{geometry}
+% \usepackage[utopia]{mathdesign}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{setspace}
+\usepackage{scalefnt}
+\usepackage{microtype}
+\usepackage[absolute]{textpos}
+\usepackage[compact]{titlesec}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Corr}{\operatorname{Corr}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Beta}{\operatorname{Beta}}
+
+% slight hack to make the independence symbol
+% taken from here: https://tex.stackexchange.com/a/79436
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern3mu{#1#2}}}
+
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\TPHorizModule}{30mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\textblockorigin{10mm}{10mm} % start everything near the top-left corner
+\titleformat{\section}{\centering\selectfont\bf}{}{0em}{}
+
+\def\parsedate #1:20#2#3#4#5#6#7#8\empty{#6#7/#4#5/20#2#3\parsetime#8\empty}
+\def\parsetime #1#2#3#4#5\empty{ #1#2:#3#4}
+\def\moddate#1{\expandafter\parsedate\pdffilemoddate{#1}\empty}
+
+% template taken from here: https://github.com/daleroberts/math-finance-cheat-sheet/
+
+% More probability stuff
+% https://wjgan.com/posts/latex.html
+
+\begin{document}
+\pagestyle{empty}
+\thispagestyle{empty}
+\setstretch{0.8}
+\scalefont{0.8}
+
+\begin{center}
+\textbf{MathStats}
+\vskip0.2em
+\end{center}
+
+\section*{Densities}
+\begin{equation*}
+  f_{Y|X}(y|x) = \frac{f(x,y)}{f_{X}(x)} = \frac{f(x,y)}{\int_{-\infty}^{\infty}f(x,y)\,dy}
+\end{equation*}
+\begin{equation*}
+  F_{Y|X}(y|x) = \int_{-\infty}^{y} \frac{f(x,v)}{f_{X}(x)}\,dv
+\end{equation*}
+
+\section*{Expectation}
+\begin{equation*}
+  \E[x^n] = \int_{-\infty}^{\infty} x^n f_{X}(x)
+\end{equation*}
+\begin{equation*}
+  \E[Y] = \int_{-\infty}^{\infty}\E[Y|X=x]f_{X}(x)\,dx
+\end{equation*}
+\begin{equation*}
+  \E[X^n] = \sum_{x:f(x)>0}x^{n}f(x)
+\end{equation*}
+Conditional expectation
+\begin{equation*}
+  \E[Y|X=x] = \int y f_{y|x}(y|x)dy
+\end{equation*}
+\begin{equation*}
+  \E[g(Y)|X=x] = \int g(y) f_{y|x}(y|x)dy
+\end{equation*}
+Law of iterated expectation
+\begin{equation*}
+  \E_{X}[E_{Y|X}\{g(Y)|X\}] = E[g(Y)]
+\end{equation*}
+If \(X \independent Y\), then
+\begin{equation*}
+  E[g(Y) | X=x] = E[g(Y)]
+\end{equation*}
+% or
+% \begin{equation*}
+%   \E_
+% \end{equation*}
+% or
+% \begin{equation*}
+  
+% \end{equation*}
+Not well defined (cauchy)
+\begin{equation*}
+  E[X]=E[X_{+}] - E[X_{-}] = \infty - \infty
+\end{equation*}
+Well defined (cauchy)
+\begin{equation*}
+  E[|X|] = \infty
+\end{equation*}
+
+
+
+\section*{Basics}
+
+\begin{equation*}
+  \Cov[X,Y] = \E[(X-\E[X])(Y-\E[Y])] = \E[XY] - \E[X]\E[Y]
+\end{equation*}
+\begin{equation*}
+  \rho(X,Y) = \frac{\Cov[X,Y]}{\sqrt{\Var[X]\cdot\Var[Y]}} = \frac{\Cov[X,Y]}{\sqrt{\sigma_{X}\sigma_{Y}}}
+\end{equation*}
+
+\section*{Expectation Algebra}
+\begin{equation*}
+  \E[x^n] = \int_{-\infty}^{\infty} x^n f_{x}(x)
+\end{equation*}
+
+\section*{Variance Algebra}
+\begin{equation*}
+  \Var[X + Y] = \Var[X] + 2\Cov[X, Y] + \Var[Y]
+\end{equation*}
+\begin{equation*}
+  \Var[X - Y] = \Var[X] - 2\Cov[X, Y] + \Var[Y]
+\end{equation*}
+\begin{equation*}
+  \Var[XY] = \E[X^2] \cdot \E[Y^2] - {(\E[X] \cdot \E[Y])}^2
+\end{equation*}
+\begin{equation*}
+  \Var[X/Y] = \Var[X \cdot (1/Y)] = \Var[(1/Y) \cdot X]
+\end{equation*}
+\begin{equation*}
+  \Var[X] = \Cov(X, X) = E[X^2] - {E[X]}^2
+\end{equation*}
+\begin{equation*}
+  \Var[aX+bY] = a^2\Var[X] + b^2 Var[Y] + 2ab\Cov[X,Y]
+\end{equation*}
+
+\section*{Correlation}
+\begin{equation*}
+  \Corr(X, Y) = \frac{\Cov(X, Y)}{\sqrt{\Var(X)}\sqrt{Var(Y)}}
+\end{equation*}
+
+
+\section*{Calc}
+By parts
+\begin{equation*}
+  \int u\,dv = uv-\int v\,du
+\end{equation*}
+Chain rule
+\begin{equation*}
+  f(g(x))' = f'(g(x))g'(x)
+\end{equation*}
+Product rule
+\begin{equation*}
+  (u \cdot v)' = u' \cdot v + u \cdot v'
+\end{equation*}
+Quotient rule
+\begin{equation*}
+  (\frac{f(x)}{g(x)})' = \frac{f'(x)g(x) - f(x)g'(x)}{g(x)^2}
+\end{equation*}
+Jacobian
+\begin{equation*}
+\mathbb{J}=\begin{vmatrix}
+\frac{\partial x}{\partial u}\frac{\partial x}{\partial v} \\
+\\
+\frac{\partial y}{\partial u}\frac{\partial y}{\partial v} \\
+\end{vmatrix}
+\end{equation*}
+\begin{equation*}
+  \iint_{A}g(x,y)\,dx\,dy = \iint_{B}g(x(u,v),y(u,v))|J(u,v)|\,du\,dv
+\end{equation*}
+
+
+
+\end{document}
