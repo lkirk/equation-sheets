@@ -11,6 +11,7 @@
 \usepackage[compact]{titlesec}
 
 \newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
 \newcommand{\Cov}{\operatorname{Cov}}
 \newcommand{\Corr}{\operatorname{Corr}}
 \newcommand{\Var}{\operatorname{Var}}
@@ -57,15 +58,21 @@
   F_{Y|X}(y|x) = \int_{-\infty}^{y} \frac{f(x,v)}{f_{X}(x)}\,dv
 \end{equation*}
 
+\section*{Moments}
+kth order moment
+\begin{equation*}
+  m_{k} = \E[X^{k}] = \int_{-\infty}^{\infty} x^k f_{X}(x) =
+  \sum_{x:f_{X}(x)>0}x^{k} f_{X}(x)
+\end{equation*}
+kth order central moment
+\begin{equation*}
+  \sigma_{k} = \E[(X-m_{1})^{k}]
+\end{equation*}
+
+
 \section*{Expectation}
 \begin{equation*}
-  \E[x^n] = \int_{-\infty}^{\infty} x^n f_{X}(x)
-\end{equation*}
-\begin{equation*}
   \E[Y] = \int_{-\infty}^{\infty}\E[Y|X=x]f_{X}(x)\,dx
-\end{equation*}
-\begin{equation*}
-  \E[X^n] = \sum_{x:f(x)>0}x^{n}f(x)
 \end{equation*}
 Conditional expectation
 \begin{equation*}
@@ -76,33 +83,14 @@ Conditional expectation
 \end{equation*}
 Law of iterated expectation
 \begin{equation*}
-  \E_{X}[E_{Y|X}\{g(Y)|X\}] = E[g(Y)]
+  \E_{X}[E_{Y|X}\{g(Y)|X\}] = \E[g(Y)]
 \end{equation*}
 If \(X \independent Y\), then
 \begin{equation*}
-  E[g(Y) | X=x] = E[g(Y)]
+  \E[g(Y) | X=x] = E[g(Y)]
 \end{equation*}
-% or
-% \begin{equation*}
-%   \E_
-% \end{equation*}
-% or
-% \begin{equation*}
-  
-% \end{equation*}
-Not well defined (cauchy)
-\begin{equation*}
-  E[X]=E[X_{+}] - E[X_{-}] = \infty - \infty
-\end{equation*}
-Well defined (cauchy)
-\begin{equation*}
-  E[|X|] = \infty
-\end{equation*}
-
-
 
 \section*{Basics}
-
 \begin{equation*}
   \Cov[X,Y] = \E[(X-\E[X])(Y-\E[Y])] = \E[XY] - \E[X]\E[Y]
 \end{equation*}
@@ -112,7 +100,10 @@ Well defined (cauchy)
 
 \section*{Expectation Algebra}
 \begin{equation*}
-  \E[x^n] = \int_{-\infty}^{\infty} x^n f_{x}(x)
+  \E[X]=\E[X_{+}] - \E[X_{-}]~\text{if}~X_{+} \geq 0
+\end{equation*}
+\begin{equation*}
+  \E[|X|] = \E[X_{+}] + \E[X_{-}]~\text{if}~X_{-} \geq 0
 \end{equation*}
 
 \section*{Variance Algebra}
@@ -142,10 +133,6 @@ Well defined (cauchy)
 
 
 \section*{Calc}
-By parts
-\begin{equation*}
-  \int u\,dv = uv-\int v\,du
-\end{equation*}
 Chain rule
 \begin{equation*}
   f(g(x))' = f'(g(x))g'(x)
@@ -156,20 +143,66 @@ Product rule
 \end{equation*}
 Quotient rule
 \begin{equation*}
-  (\frac{f(x)}{g(x)})' = \frac{f'(x)g(x) - f(x)g'(x)}{g(x)^2}
+  \left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)g(x) - f(x)g'(x)}{g(x)^2}
 \end{equation*}
-Jacobian
+Indeterminate Forms \\
+$\frac{0}{0}$, $\frac{\pm\infty}{\pm\infty}$, $\infty-\infty$, $0*\infty$,
+$0^{0}$, $1^{\infty}$, $\infty^{0}$ \\
+Determinate Forms \\
+$\infty+\infty=\infty$, $-\infty-\infty=-\infty$, $0^{\infty}=0$,
+$0^{-\infty}=\infty$, $\infty*\infty=\infty$
+
+\section*{Series}
 \begin{equation*}
-\mathbb{J}=\begin{vmatrix}
-\frac{\partial x}{\partial u}\frac{\partial x}{\partial v} \\
-\\
-\frac{\partial y}{\partial u}\frac{\partial y}{\partial v} \\
-\end{vmatrix}
-\end{equation*}
-\begin{equation*}
-  \iint_{A}g(x,y)\,dx\,dy = \iint_{B}g(x(u,v),y(u,v))|J(u,v)|\,du\,dv
+  \sum_{n=0}^{\infty}\frac{x^{n}}{n!} = e^{x}
 \end{equation*}
 
+\section*{Binomial Coefficient}
+\begin{equation*}
+  \binom{n}{k} = \binom{n}{n-k}
+\end{equation*}
+\begin{equation*}
+  \binom{n}{k} = \binom{n-1}{k-1} \left( \frac{n}{k} \right)
+\end{equation*}
+% There is a fantastic webpage here with many more identities
+% https://web.archive.org/web/20190629193344/http://www.math.wvu.edu/~gould/
+\begin{equation*}
+  (n+1)\binom{r}{n+1} = r\binom{r-1}{n}
+\end{equation*}
+\begin{equation*}
+  \binom{n}{r+a}\binom{r+a}{r} = \binom{n}{r}\binom{n-r}{a}
+\end{equation*}
+
+\section*{Distribution Functions}
+\begin{equation*}
+  \lim_{x\to-\infty}F(x)=0~\lim_{x\to\infty}F(x)=1
+\end{equation*}
+\begin{equation*}
+  F(x) \leq F(y)~\text{if}~x<y
+\end{equation*}
+\begin{equation*}
+  \lim_{h \downarrow 0}F(x+h)=F(x)
+\end{equation*}
+\begin{equation*}
+  F_{X,Y}(x,y)=\P(X\leq x,Y\leq y)
+\end{equation*}
+\begin{equation*}
+  F_{\boldsymbol{X}}(\boldsymbol{x})=\P(\boldsymbol{X}=\boldsymbol{x}) =
+  \P(X_{1}\leq x_{1},\ldots,X_{k}\leq x_{k})
+\end{equation*}
+\begin{equation*}
+\end{equation*}
+
+\section*{Random Variables}
+\begin{equation*}
+  \P(X>x) = 1-F(x)
+\end{equation*}
+\begin{equation*}
+  \P(x<X\leq y) = F(y) - F(x)
+\end{equation*}
+\begin{equation*}
+  \P(X=x)=F(x)-lim_{t\uparrow x}F(t)
+\end{equation*}
 
 
 \end{document}
