@@ -72,7 +72,14 @@ kth order central moment
 
 \section*{Expectation}
 \begin{equation*}
+  \E[g(X,Y)] = \sum_{y}\sum_{x}g(x,y)f_{X,Y}(x,y)
+\end{equation*}
+\begin{equation*}
   \E[Y] = \int_{-\infty}^{\infty}\E[Y|X=x]f_{X}(x)\,dx
+\end{equation*}
+If $X\geq 0$ (continuous or discrete)
+\begin{equation*}
+  \E[X] = \int_{0}^{\infty}(1-F_{X}(x))~dx
 \end{equation*}
 Conditional expectation
 \begin{equation*}
@@ -85,9 +92,18 @@ Law of iterated expectation
 \begin{equation*}
   \E_{X}[E_{Y|X}\{g(Y)|X\}] = \E[g(Y)]
 \end{equation*}
+\begin{equation*}
+  \E[h(X)g(Y)] = \E[h(X)\E[g(Y)|X]]
+\end{equation*}
+\begin{equation*}
+  \E[Y]=\E[\E[Y|X]] = \sum_{x}\E[Y|X = x]f_{X}(x)
+\end{equation*}
 If \(X \independent Y\), then
 \begin{equation*}
   \E[g(Y) | X=x] = E[g(Y)]
+\end{equation*}
+\begin{equation*}
+  \Var[X] = \E[X^{2}] - \E[X]^{2}
 \end{equation*}
 
 \section*{Basics}
@@ -105,6 +121,16 @@ If \(X \independent Y\), then
 \begin{equation*}
   \E[|X|] = \E[X_{+}] + \E[X_{-}]~\text{if}~X_{-} \geq 0
 \end{equation*}
+\begin{equation*}
+  \E[a+bX] = a + b\E[X]
+\end{equation*}
+\begin{equation*}
+  \E[aX+bY+c] = a\E[X]+b\E[Y]+c
+\end{equation*}
+If \(X \independent Y\), then
+\begin{equation*}
+  \E[XY] = \E[X]\E[Y]
+\end{equation*}
 
 \section*{Variance Algebra}
 \begin{equation*}
@@ -112,6 +138,14 @@ If \(X \independent Y\), then
 \end{equation*}
 \begin{equation*}
   \Var[X - Y] = \Var[X] - 2\Cov[X, Y] + \Var[Y]
+\end{equation*}
+If \(X \independent Y\), then
+\begin{equation*}
+  \Var[X + Y] = \Var[X] + \Var[Y]
+\end{equation*}
+If \(X \independent Y\), then
+\begin{equation*}
+  \Var[X - Y] = \Var[X] - \Var[Y]
 \end{equation*}
 \begin{equation*}
   \Var[XY] = \E[X^2] \cdot \E[Y^2] - {(\E[X] \cdot \E[Y])}^2
@@ -156,13 +190,22 @@ $0^{-\infty}=\infty$, $\infty*\infty=\infty$
 \begin{equation*}
   \sum_{n=0}^{\infty}\frac{x^{n}}{n!} = e^{x}
 \end{equation*}
+\begin{equation*}
+  \sum_{k=1}^{\infty}{a^{k}}=\frac{a}{1-a}~\text{where}~|a|<1
+\end{equation*}
+\begin{equation*}
+  \sum_{k=1}^{\infty}k(1-p)^{k-1}=\frac{1}{p^{2}}=p^{-2}
+\end{equation*}
+\begin{equation*}
+  \sum_{k=2}^{\infty}k(k-1)(1-p)^{k-2}=\frac{2}{p^{3}}
+\end{equation*}
 
 \section*{Binomial Coefficient}
 \begin{equation*}
   \binom{n}{k} = \binom{n}{n-k}
 \end{equation*}
 \begin{equation*}
-  \binom{n}{k} = \binom{n-1}{k-1} \left( \frac{n}{k} \right)
+  \binom{n}{k} = \binom{n-1}{k-1} \left( \frac{n}{k} \right)~\text{if}~k > 0
 \end{equation*}
 % There is a fantastic webpage here with many more identities
 % https://web.archive.org/web/20190629193344/http://www.math.wvu.edu/~gould/
@@ -172,6 +215,9 @@ $0^{-\infty}=\infty$, $\infty*\infty=\infty$
 \end{equation*}
 \begin{equation*}
   \binom{n}{r+a}\binom{r+a}{r} = \binom{n}{r}\binom{n-r}{a}
+\end{equation*}
+\begin{equation*}
+  \frac{1}{k+1}\binom{n}{k} = \binom{n+1}{k+1}\frac{1}{n+1}
 \end{equation*}
 
 \section*{Distribution Functions}
@@ -185,16 +231,31 @@ $0^{-\infty}=\infty$, $\infty*\infty=\infty$
   \lim_{h \downarrow 0}F(x+h)=F(x)
 \end{equation*}
 \begin{equation*}
+  F(x)=\int_{-\infty}^{x}f(t)~dt~\text{where}~f(t)\geq
+  0~\text{and}\int_{-\infty}^{\infty}f(t)~dt = 1
+\end{equation*}
+\begin{equation*}
   F_{X,Y}(x,y)=\P(X\leq x,Y\leq y)
 \end{equation*}
 \begin{equation*}
-  F_{\boldsymbol{X}}(\boldsymbol{x})=\P(\boldsymbol{X}=\boldsymbol{x}) =
+  F_{\boldsymbol{X}}(\boldsymbol{x})=\P(\boldsymbol{X}\leq\boldsymbol{x}) =
   \P(X_{1}\leq x_{1},\ldots,X_{k}\leq x_{k})
 \end{equation*}
 \begin{equation*}
+  F_{\boldsymbol{X}}(\boldsymbol{x})=\int_{-\infty}^{x_{1}}\dotsi
+  \int_{-\infty}^{x_{k}}f(t_{1},\cdots,t_{k})~dt_{1}\dotsm dt_{k}
 \end{equation*}
 
 \section*{Random Variables}
+\begin{equation*}
+  X: \Omega \rightarrow \mathbb{R}
+\end{equation*}
+\begin{equation*}
+  \{\omega \in \Omega : X(\omega) \leq x\} \in \mathcal{F}
+\end{equation*}
+\begin{equation*}
+  F(x) = \P(X \leq x) = \P(\{\omega : X(\omega) \leq x\})
+\end{equation*}
 \begin{equation*}
   \P(X>x) = 1-F(x)
 \end{equation*}
@@ -202,7 +263,34 @@ $0^{-\infty}=\infty$, $\infty*\infty=\infty$
   \P(x<X\leq y) = F(y) - F(x)
 \end{equation*}
 \begin{equation*}
-  \P(X=x)=F(x)-lim_{t\uparrow x}F(t)
+  \P(X<x) = \lim_{n\to \infty}F(x - \frac{1}{n})
+\end{equation*}
+\begin{equation*}
+  \P(X=x) = \P(X\leq x) - \P(X < x) = F(x)-\lim_{n\to \infty}F(x-\frac{1}{n})
+\end{equation*}
+
+\section*{PDF}
+Joint PDF
+\begin{equation*}
+  F(x,y) = \P(X \leq x,Y \leq y) = \int_{-\infty}^{x}\left\{ \int_{-\infty}^{y}
+    f(u,v)~dv\right\}~du
+\end{equation*}
+\begin{equation*}
+  f(x,y) = \frac{\partial^{2}}{\partial y \partial x}F(x,y)
+\end{equation*}
+Marginal PDF
+\begin{equation*}
+  f_{X}(x) = \int_{-\infty}^{+\infty} f(x,v)~dv,~f_{Y}(y) = \int_{-\infty}^{+\infty} f(u,y)~du
+\end{equation*}
+
+\section*{Convolution}
+Let $Z=X+Y$
+\begin{equation*}
+  f_{Z}(z)=\sum_{x}f_{X}(x)f_{Y|X}(z-x|x) = \sum_{y}f_{Y}(y)f_{X|Y}(z-y|y)
+\end{equation*}
+If \(X \independent Y\), then
+\begin{equation*}
+  f_{Z}(z)=\sum_{x}f_{X}(x)f_{Y}(z-x) = \sum_{y}f_{Y}(y)f_{X}(z-y)
 \end{equation*}
 
 
