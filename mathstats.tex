@@ -50,14 +50,6 @@
 \vskip0.2em
 \end{center}
 
-\section*{Densities}
-\begin{equation*}
-  f_{Y|X}(y|x) = \frac{f(x,y)}{f_{X}(x)} = \frac{f(x,y)}{\int_{-\infty}^{\infty}f(x,y)\,dy}
-\end{equation*}
-\begin{equation*}
-  F_{Y|X}(y|x) = \int_{-\infty}^{y} \frac{f(x,v)}{f_{X}(x)}\,dv
-\end{equation*}
-
 \section*{Moments}
 kth order moment
 \begin{equation*}
@@ -90,7 +82,7 @@ Conditional expectation
 \end{equation*}
 Law of iterated expectation
 \begin{equation*}
-  \E_{X}[E_{Y|X}\{g(Y)|X\}] = \E[g(Y)]
+  \E_{X}[E_{Y|X}\{g(Y)|X\}] = \E[g(Y)] = \sum_{x}\E[g(Y)|X=x]f_{X}(x)
 \end{equation*}
 \begin{equation*}
   \E[h(X)g(Y)] = \E[h(X)\E[g(Y)|X]]
@@ -103,7 +95,16 @@ If \(X \independent Y\), then
   \E[g(Y) | X=x] = E[g(Y)]
 \end{equation*}
 \begin{equation*}
-  \Var[X] = \E[X^{2}] - \E[X]^{2}
+  \Var[X] = \E[X^{2}] - \E[X]^{2} = \Cov(X,X)
+\end{equation*}
+Special Case: Let $Y^{*} = I(Y=y)$
+\begin{equation*}
+  \E[Y^{*}] = \E[I(Y=y)] = \P(Y=y)
+\end{equation*}
+Special case cont
+\begin{equation*}
+  \E[Y^{*}] = \sum_{x}\E[Y^{*}|X=x]f_{X}(x) = \sum_{x}\P(Y=y|X=x)f_{X}(x) =
+  \P(Y=y)
 \end{equation*}
 
 \section*{Basics}
@@ -154,9 +155,6 @@ If \(X \independent Y\), then
   \Var[X/Y] = \Var[X \cdot (1/Y)] = \Var[(1/Y) \cdot X]
 \end{equation*}
 \begin{equation*}
-  \Var[X] = \Cov(X, X) = E[X^2] - {E[X]}^2
-\end{equation*}
-\begin{equation*}
   \Var[aX+bY] = a^2\Var[X] + b^2 Var[Y] + 2ab\Cov[X,Y]
 \end{equation*}
 
@@ -187,18 +185,38 @@ $\infty+\infty=\infty$, $-\infty-\infty=-\infty$, $0^{\infty}=0$,
 $0^{-\infty}=\infty$, $\infty*\infty=\infty$
 
 \section*{Series}
+Exponential
 \begin{equation*}
   \sum_{n=0}^{\infty}\frac{x^{n}}{n!} = e^{x}
 \end{equation*}
+Geometric
 \begin{equation*}
-  \sum_{k=1}^{\infty}{a^{k}}=\frac{a}{1-a}~\text{where}~|a|<1
+  \sum_{k=0}^{\infty}{ar^{k}}=\frac{a}{1-r}~\text{where}~|r|<1
 \end{equation*}
+\begin{equation*}
+  \sum_{k=1}^{\infty}{kr^{k-1}}=\frac{1}{(1-r)^{2}}~\text{where}~|r|<1
+\end{equation*}
+\begin{equation*}
+  \sum_{k=2}^{\infty}{k(k-1)r^{k-2}}=\frac{-2}{(1-r)^{3}}~\text{where}~|r|<1
+\end{equation*}
+Arithmetico-geometric
 \begin{equation*}
   \sum_{k=1}^{\infty}k(1-p)^{k-1}=\frac{1}{p^{2}}=p^{-2}
 \end{equation*}
 \begin{equation*}
   \sum_{k=2}^{\infty}k(k-1)(1-p)^{k-2}=\frac{2}{p^{3}}
 \end{equation*}
+Binomial
+\begin{equation*}
+  (x+y)^{n} = \sum_{k=0}^{n}\binom{n}{k}x^{k}y^{n-k}
+\end{equation*}
+\begin{equation*}
+  n(x+y)^{n-1} = \sum_{k=1}^{n}k\binom{n}{k}x^{k-1}y^{n-k}
+\end{equation*}
+\begin{equation*}
+  n(n-1)(x+y)^{n-2} = \sum_{k=2}^{n}k(k-1)\binom{n}{k}x^{k-2}y^{n-k}
+\end{equation*}
+
 
 \section*{Binomial Coefficient}
 \begin{equation*}
@@ -245,6 +263,14 @@ $0^{-\infty}=\infty$, $\infty*\infty=\infty$
   F_{\boldsymbol{X}}(\boldsymbol{x})=\int_{-\infty}^{x_{1}}\dotsi
   \int_{-\infty}^{x_{k}}f(t_{1},\cdots,t_{k})~dt_{1}\dotsm dt_{k}
 \end{equation*}
+\begin{equation*}
+  \P(a < X \leq b, c < Y \leq d) = F(b,d) - F(a,d) - F(b,c) + F(a,c)
+\end{equation*}
+Joint Density
+\begin{equation*}
+  F(x,y) = \P(X \leq x,Y \leq y) = \int_{-\infty}^{x}\left\{ \int_{-\infty}^{y}
+    f(u,v)~dv\right\}~du
+\end{equation*}
 
 \section*{Random Variables}
 \begin{equation*}
@@ -270,11 +296,12 @@ $0^{-\infty}=\infty$, $\infty*\infty=\infty$
 \end{equation*}
 
 \section*{PDF}
-Joint PDF
+Conditional PDF
 \begin{equation*}
-  F(x,y) = \P(X \leq x,Y \leq y) = \int_{-\infty}^{x}\left\{ \int_{-\infty}^{y}
-    f(u,v)~dv\right\}~du
+  f_{Y|X}(y|x) = \frac{f(x,y)}{f_{X}(x)} =
+  \frac{f(x,y)}{\int_{-\infty}^{\infty}f(x,y)\,dy} = \int_{-\infty}^{y} \frac{f(x,v)}{f_{X}(x)}\,dv
 \end{equation*}
+Joint PDF
 \begin{equation*}
   f(x,y) = \frac{\partial^{2}}{\partial y \partial x}F(x,y)
 \end{equation*}
@@ -292,6 +319,39 @@ If \(X \independent Y\), then
 \begin{equation*}
   f_{Z}(z)=\sum_{x}f_{X}(x)f_{Y}(z-x) = \sum_{y}f_{Y}(y)f_{X}(z-y)
 \end{equation*}
+
+\section*{Definitions}
+$\Omega$ sample space
+
+$\mathcal{F}$ collection of subsets of $\Omega$
+\begin{equation*}
+  \text{if}~A_{1},A_{2},\ldots,A_{n}\in\mathcal{F},\text{then}~\bigcup_{i=1}^{n}A_{i}\in\mathcal{F}
+\end{equation*}
+\begin{equation*}
+  \text{if}~A\in\mathcal{F},\text{then}~A^{c}\in\mathcal{F}
+\end{equation*}
+
+$\omega$ is a member of $\Omega$, it is an elementary event, outcome.
+
+$\P$ prob meas on $(\Omega, \mathcal{F})$ $\P:f\rightarrow [0,1]$  $\P(\Omega)=1,\P(\emptyset)=0$
+
+$\P$ is finitely additive and has countable additivity if events disjoint
+
+$\P\left(\bigcup_{i=1}^{n}A_{i}\right)=\sum_{i=1}^{n}\P(A_{i})$
+
+$(\Omega,\mathcal{F},\P)$ prob space
+
+RV
+
+$X: \Omega \rightarrow \mathbb{R}$
+
+$\mathcal{F}$ measurable
+
+$\{\omega \in \Omega : X(\omega) \leq x\} \in \mathcal{F}$ for each $x\in\mathbb{R}$
+
+$F_{X}(x):\mathbb{R}\rightarrow [0,1]$
+
+right cont, monotone inc, lims 0, 1
 
 
 \end{document}
