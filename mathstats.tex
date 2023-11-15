@@ -17,6 +17,9 @@
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\Exp}{\operatorname{Exp}}
 \newcommand{\Beta}{\operatorname{Beta}}
+\newcommand{\Cauchy}{\operatorname{Cauchy}}
+\newcommand{\Unif}{\operatorname{Unif}}
+\newcommand\iid{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny iid}}}{\sim}}}
 
 % slight hack to make the independence symbol
 % taken from here: https://tex.stackexchange.com/a/79436
@@ -320,38 +323,283 @@ If \(X \independent Y\), then
   f_{Z}(z)=\sum_{x}f_{X}(x)f_{Y}(z-x) = \sum_{y}f_{Y}(y)f_{X}(z-y)
 \end{equation*}
 
-\section*{Definitions}
-$\Omega$ sample space
-
-$\mathcal{F}$ collection of subsets of $\Omega$
 \begin{equation*}
-  \text{if}~A_{1},A_{2},\ldots,A_{n}\in\mathcal{F},\text{then}~\bigcup_{i=1}^{n}A_{i}\in\mathcal{F}
+  f_{Z}(z)=\int_{-\infty}^{\infty}f_{X,Y}(x,z-x)~dx = \int_{-\infty}^{\infty}f_{X,Y}(z-y,y)~dy
 \end{equation*}
+If \(X \independent Y\), then
 \begin{equation*}
-  \text{if}~A\in\mathcal{F},\text{then}~A^{c}\in\mathcal{F}
+  f_{Z}(z)=\int_{-\infty}^{\infty}f_{X}(x)f_{Y}(z-x)~dx = \int_{-\infty}^{\infty}f_{X}(z-y)f_{Y}(y)~dy
 \end{equation*}
 
-$\omega$ is a member of $\Omega$, it is an elementary event, outcome.
+\section*{Bivariate Normal}
+\begin{equation*}
+  \Sigma = \Cov(\boldsymbol{X},\boldsymbol{X})
+  = \begin{pmatrix}
+    \sigma_{1}^{2}&\Cov(X_{1},X_{2})\\
+      \Cov(X_{1},X_{2})&\sigma_{2}^{2}
+  \end{pmatrix}
+  = \begin{pmatrix}
+    \sigma_{1}^{2}&\rho\sigma_{1}\sigma_{2}\\
+      \rho\sigma_{1}\sigma_{2}&\sigma_{2}^{2}
+  \end{pmatrix}
+\end{equation*}
 
-$\P$ prob meas on $(\Omega, \mathcal{F})$ $\P:f\rightarrow [0,1]$  $\P(\Omega)=1,\P(\emptyset)=0$
+% \begin{equation*}
+%   f_{\boldsymbol{X}}(\boldsymbol{x}) =
+%   \frac{1}{2\pi\sigma_{1}\sigma{2}\sqrt{1-\rho^{2}}}
+%   \exp\left\{-\frac{1}{2(1-\rho^{2})}\left( \frac{x_{1} - \mu_{1}}{\sigma_{1}} \right)^{2}
+%     - 2\rho \left(\frac{x_{1} - \mu_{1}}{\sigma_{1}} \frac{x_{2} -
+%         \mu_{2}}{\sigma_{2}}\right)
+%     + \left(\frac{x_{2} - \mu_{2}}{\sigma_{2}}\right)^{2} \right\}
+% \end{equation*}
 
-$\P$ is finitely additive and has countable additivity if events disjoint
+\begin{equation*}
+  \Cov(X_{1},X_{2}) = 0 \iff X_{1} \independent X_{2}
+\end{equation*}
 
-$\P\left(\bigcup_{i=1}^{n}A_{i}\right)=\sum_{i=1}^{n}\P(A_{i})$
+\begin{equation*}
+  \boldsymbol{U} = \boldsymbol{v} + C\boldsymbol{X} \sim
+  \mathcal{N}(\boldsymbol{v} + C\boldsymbol{\mu},C\Sigma C)
+\end{equation*}
 
-$(\Omega,\mathcal{F},\P)$ prob space
+\begin{equation*}
+  X_{2} | X_{1} = x_{1} \sim \mathcal{N}(\mu_{2} + \rho
+  \frac{\sigma_{2}}{\sigma{1}}(x_{1} - \mu_{1}),\sigma_{2}^{2}(1-\rho^{2}))
+\end{equation*}
 
-RV
+\begin{equation*}
+  \E[X_{2} | X_{1}] = \mu_{2} + \rho \frac{\sigma_{2}}{\sigma{1}}(X_{1} - \mu_{1})
+\end{equation*}
 
-$X: \Omega \rightarrow \mathbb{R}$
 
-$\mathcal{F}$ measurable
+\section*{Distributions arising from $\mathcal{N}$}
+Gamma distribution
+\begin{equation*}
+  \Gamma\left(\frac{1}{2},\frac{k}{2}\right) \rightarrow \chi_{k}^{2}
+  \rightarrow t_{k} \stackrel{D}{=}
+  \frac{\mathcal{N}(0,1)}{\sqrt{\chi_{k}^{2}/k}} \rightarrow F_{m,k}
+  \stackrel{D}{=} \frac{\chi_{m}^{2}/m}{\chi_{k}^{2}/k}.
+  (F_{1,k} \stackrel{D}{=} t_{k}^{2})
+\end{equation*}
 
-$\{\omega \in \Omega : X(\omega) \leq x\} \in \mathcal{F}$ for each $x\in\mathbb{R}$
+\begin{equation*}
+  X\sim\Gamma(\lambda,p) \iff \lambda X \sim \Gamma(1,p)
+  \stackrel{c>0}{\implies} cX\sim \Gamma(\frac{\lambda}{c},p)
+\end{equation*}
 
-$F_{X}(x):\mathbb{R}\rightarrow [0,1]$
+\begin{equation*}
+  X_{j}\sim \Gamma(\lambda, p_{j}), j=1,\ldots,k, X_{1},\ldots,X_{k}
+  \independent \implies \sum_{j=1}^{k}X_{j} \sim \Gamma(\lambda, \sum_{j=1}^{k}p_{j})
+\end{equation*}
 
-right cont, monotone inc, lims 0, 1
+\begin{equation*}
+  \begin{cases}
+    X_{1} & \sim \Gamma(\lambda, p) \\
+    X_{2} & \sim \Gamma(\lambda, q) \\
+    X_{1} & \independent X_{2}
+  \end{cases}
+  \implies
+  \begin{cases}
+    Y_{1} = X_{1} + X_{2} & \sim \Gamma(\lambda, p + q) \\
+    Y_{2} = \frac{X_{1}}{X_{1} + X_{2}} & \sim \Beta(p, q) \\
+    Y_{1} & \independent Y_{2}
+  \end{cases}
+\end{equation*}
+
+$\chi_{k}^{2}$ distribution (k degrees of freedom)
+
+\begin{equation*}
+  Z_{1},\ldots,Z_{k}\iid\mathcal{N}(0,1) \implies V =
+  Z^{2}_{1}+\cdots+Z^{2}_{k} \sim \chi_{k}^{2}
+\end{equation*}
+
+\begin{equation*}
+  f_{V}(v) = \frac{v^{(k-2)/2}e^{-v/2}}{2^{k/2}\Gamma(k/2)} \sim
+  \Gamma\left(\frac{1}{2},\frac{k}{2}\right), v \geq 0
+\end{equation*}
+
+\begin{equation*}
+  \mathcal{N}(0,1)^{2} \sim \chi_{1}^{2} \stackrel{D}{=} \Gamma\left(\frac{1}{2},\frac{1}{2}\right)
+\end{equation*}
+
+\begin{equation*}
+  \chi_{2}^{2} = \Gamma\left(\frac{1}{2},1\right) = \Exp\left(\frac{1}{2}\right)
+\end{equation*}
+
+$t_{k}$ distribution (k degrees of freedom)\\
+if
+\begin{equation*}
+  Z \sim \mathcal{N}(0, 1),~V \sim \chi_{k}^{2},~Z \independent V
+\end{equation*}
+then
+\begin{equation*}
+  Q = \frac{Z}{\sqrt{V/k}} \sim t_{k}
+\end{equation*}
+\begin{equation*}
+  f_{Q}(q) = c_{1}{(1+\frac{q^{2}}{k})}^{-(k+1)/2}, q \in \mathbb{R}
+\end{equation*}
+where \(c_{1}>0\) is a constant
+\begin{equation*}
+  \frac{1}{1 + q^{2}} \sim \Cauchy(0,1) \stackrel{D}{=} t_{1}
+\end{equation*}
+
+\begin{equation*}
+  t_{k} \to \mathcal{N}(0,1) \text{ as } k\to\infty
+\end{equation*}
+
+\textbf{F Distribution} \\
+if
+\begin{equation*}
+  V \sim \chi^{2}_{m},~W \sim \chi^{2}_{k},~V \independent W
+\end{equation*}
+then
+\begin{equation*}
+  S = \frac{V/m}{W/k} \sim F_{m,k}
+\end{equation*}
+\begin{equation*}
+  f_{S}(s) = c_{2}s^{(m-2)/2}(1+\frac{m}{k}s)^{-(k+m)/2},s>0
+\end{equation*}
+where $c_{2} > 0$ is a constant
+
+Special case:
+if \(m=1\), then
+\begin{equation*}
+  F_{m,k}=F{1,k} \stackrel{D}{=} t^{2}_{k}
+\end{equation*}
+
+\section{Estimators}
+Estimate $\mu$
+\begin{equation*}
+  \overline{X}_{n} = \frac{1}{n}\sum_{i=1}^{n}X_{i}
+\end{equation*}
+Estimate $\sigma^{2}$
+\begin{equation*}
+  S_{n}^{2} = \frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\overline{X}_{n})^{2}
+\end{equation*}
+Suppose $\{X_{1},\ldots,X_{n}\}\iid\mathcal{N}(\mu,\sigma^{2})$, then
+\begin{equation*}
+  \sqrt{n}\frac{\overline{X}_{n} - \mu}{\sigma}\sim\mathcal{N}(0,1),~~
+  \overline{X}_{n}\independent S_{n}^{2},~~
+  \E[S_{n}^{2}] = \sigma^{2},~~\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim \chi^{2}_{n-1}
+\end{equation*}
+And
+\begin{equation*}
+  \sqrt{n}\frac{\overline{X}_{n} - \mu}{\sigma}\sim \mathcal{N}(0,1),~~
+  \sqrt{n}\frac{\overline{X}_{n} - \mu}{S_{n}}\sim t_{n-1}
+\end{equation*}
+
+\section{Sampling}
+Inverse Transform
+
+Let $U\sim\Unif(0, 1)$, $F$ be some continuous distribution. Assume $F(x)$ is strictly
+$\uparrow$ in x, then: $X=F^{-1}(U)\sim F$
+
+Discrete
+
+Let $U\sim\Unif(0, 1)$, suppose $X\in\{0,1,2,\ldots\} \sim F(x)$. We wish to
+generate X. For $k=0,1,2,\ldots$, define $Y=k\iff F(k-1)<U\leq F(k)$, then
+$Y\sim F$
+
+Rejection
+
+Suppose $X\sim F_{X}$ with a known PDF: $f_{X}$. Let $U\sim\Unif(0,1)$,
+$Z\independent U$, $Z\sim f_{Z}(z)$, where the pdf is known. $\exists$ a known
+constant $a > 0$, such that $f_{X}(z)\leq a f_{Z}(z) \forall z$
+
+Event $E=\{aUf_{Z}(Z)\leq f_{X}(Z)\}$. $P(Z\leq x | E) = F_{X})(x)$
+
+
+\section{Generating Functions -- PGF}
+(non-negative integer-valued RVs) -- No finiteness guarantee
+\begin{equation*}
+  G_{X}(s) = \E(s^{X}) = \sum_{j=0}^{\infty}s^{j}\P(X=j) = \sum_{j=0}^{\infty}s^{j}f_{X}(j)
+\end{equation*}
+Factorial moments
+\begin{equation*}
+  \E[X(X-1)\cdots(X-k+1)] = G^{(k)}(1)
+\end{equation*}
+
+\begin{equation*}
+  X \independent Y \implies G_{X+Y}(s) = G_{X}(s)G_{Y}(s)
+\end{equation*}
+
+If $X_{1},X_{2},\ldots$ iid  with PGF $G_{X}$ and $N (\geq 0)$ is a rv w/ PGF
+$G_{N}$, then the sum $S_{N} = X_{1}+\cdots+X_{N}$ has the PGF:
+\begin{equation*}
+  G_{S_{N}}(s) = G_{N}(G_{X}(t))
+\end{equation*}
+\begin{equation*}
+  G_{X_{1},X_{2}}(s_{1},s_{2}) = \E[s_{1}^{X_{1}}s_{2}^{X_{2}}]
+\end{equation*}
+If $X_{1} \independent X_{2}$:
+\begin{equation*}
+  G_{X_{1},X_{2}}(s_{1},s_{2}) = G_{X_{1}}(s_{1})G_{X_{2}}(s_{2})
+\end{equation*}
+
+
+\section{Generating Functions -- MGF}
+(General RVs)
+\begin{equation*}
+  M_{X}(t) = \E(e^{tX}) = G_{X}(e^{t}) = \sum_{j=0}^{\infty}e^{tj}f_{X}(j) =
+  \int e^{tx}f_{X}(x)~dx
+\end{equation*}
+\begin{equation*}
+  M_{X_{1},X_{2}}(t_{1},t_{2}) = \E[e^{t_{1}X_{1}}e^{t_{2}X_{2}}] = G_{X_{1},X_{2}}(e^{t_{1}},e^{t_{2}})
+\end{equation*}
+If $X_{1} \independent X_{2}$:
+\begin{equation*}
+  M_{X_{1},X_{2}}(t_{1},t_{2}) = M_{X_{1}}(t_{1})M_{X_{2}}(t_{2})
+\end{equation*}
+For $S_{n} = X_{1}+\cdots+X_{n}$, if $\left\{X_{i}\right\}^{n}_{i=1}$ are
+independent, then:
+\begin{equation*}
+  M_{S_{n}}(t) = \prod_{k=1}^{n}M_{X_{k}}(t)
+\end{equation*}
+In addition, if $\left\{X_{i}\right\}^{n}_{i=1}$ have the same distribution as
+X, then:
+\begin{equation*}
+  M_{S_{n}}(t) = (M_{X}(t))^{n}
+\end{equation*}
+
+For $Y=a+bX$, if $M_{X}$ exists:
+\begin{equation*}
+  M_{Y}(t) = \E[e^{tY}] = \E[e^{ta+tbX}] = e^{ta}\E[e^{tbX}] = e^{ta}M_{X}(tb)
+\end{equation*}
+
+If $|M_{X}(t)| < \infty$ for $t \in (-a,a)$, where $a>0$ is some constant, then:
+\begin{equation*}
+  M_{X}^{(k)}(0) = \E[X^{k}]
+\end{equation*}
+
+\section*{Stein's Lemma}
+If \(g(z)\) is differentiable and \(\lim\limits_{z\to-\infty} g(z)\phi(z) = 0\) and \(\lim\limits_{z\to+\infty} g(z)\phi(z) = 0\) \\
+Then for \(Z\sim\mathcal{N}(0, 1)\): $\E[Z g(Z)] = \Cov(Z, g(Z)) = \E[g'(Z)]$
+
+\textbf{Applications}\\
+For \(Z\sim\mathcal{N}(0,1)\): $\E[Z^{2k}] = (2k - 1)!!$
+if \(\lim\limits_{z\to\pm\infty} m(\mu + \sigma z)\phi(z)=0\), then: $Cov(X,m(X)) = \sigma^{2}\E[m'(X)]$
+
+\section*{CLT}
+Suppose \(\{X_{1},\ldots,X_{n}\} \iid X\), with \(\mu = \E[X]\) and \(\sigma^{2} = \Var(X) \in (0, \infty)\). Define \(Z_{n}=\sqrt{n}\frac{\overline{X}_{n}-\mu}{\sigma}\). Then
+\begin{equation*}
+  Z_{n} \overset{D}{\longrightarrow} Z\sim\mathcal{N}(0,1)
+\end{equation*}
+
+\section*{LLN}
+Suppose \(\{X_{1},\ldots,X_{n}\} \iid X\), with \(\mu = \E[X]\). Then
+\begin{equation*}
+  \overline{X}_{n} \overset{D}{\longrightarrow} \mu
+\end{equation*}
+
+\section*{MGFs}
+Gamma: $\Gamma(\lambda,\alpha) =
+\left(\frac{\lambda}{\lambda-t}\right)^{\alpha}, t < \lambda$
+
+Binomial: $(q+pe^{t})^{n}$
+
+Poisson: $\exp\{\lambda(e^{t} - 1)\}$
+
+Geometric: $\frac{pe^{t}}{1-(1-p)e^{t}}, t<-\ln(1-p)$
 
 
 \end{document}
