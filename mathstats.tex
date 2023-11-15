@@ -19,6 +19,7 @@
 \newcommand{\Beta}{\operatorname{Beta}}
 \newcommand{\Cauchy}{\operatorname{Cauchy}}
 \newcommand{\Unif}{\operatorname{Unif}}
+\newcommand{\Bin}{\operatorname{Bin}}
 \newcommand\iid{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny iid}}}{\sim}}}
 
 % slight hack to make the independence symbol
@@ -48,22 +49,11 @@
 \setstretch{0.8}
 \scalefont{0.8}
 
-\begin{center}
-\textbf{MathStats}
-\vskip0.2em
-\end{center}
-
 \section*{Moments}
-kth order moment
-\begin{equation*}
-  m_{k} = \E[X^{k}] = \int_{-\infty}^{\infty} x^k f_{X}(x) =
-  \sum_{x:f_{X}(x)>0}x^{k} f_{X}(x)
-\end{equation*}
 kth order central moment
 \begin{equation*}
   \sigma_{k} = \E[(X-m_{1})^{k}]
 \end{equation*}
-
 
 \section*{Expectation}
 \begin{equation*}
@@ -600,6 +590,15 @@ Binomial: $(q+pe^{t})^{n}$
 Poisson: $\exp\{\lambda(e^{t} - 1)\}$
 
 Geometric: $\frac{pe^{t}}{1-(1-p)e^{t}}, t<-\ln(1-p)$
+
+\section*{EDF}
+$F(x)=P(X\leq x)=\E[I(X\leq x)]$, $\hat{\mathbb{F}}_{n}(x) =
+\frac{1}{n}\sum_{i=1}^{n}I(X_{i}\leq x) = \frac{1}{n}N$, where
+$N\sim\Bin(n,F(x))$. $\E[\hat{\mathbb{F}}_{n}(x)] = F(x)$,
+$\Var(\hat{\mathbb{F}}_{n}(x)) = \frac{1}{n}F(x)(1-F(x))$
+
+LLN: $\hat{\mathbb{F}}_{n}(x) \overset{D}{\to} F(x)$, CLT: If $0<F(x)<1$, then
+$\sqrt{n}\frac{\hat{\mathbb{F}}_{n}(x) - F(x)}{\sqrt{F(x)(1-F(x))}}$
 
 
 \end{document}
