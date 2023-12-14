@@ -19,7 +19,9 @@
 \newcommand{\Beta}{\operatorname{Beta}}
 \newcommand{\Cauchy}{\operatorname{Cauchy}}
 \newcommand{\Unif}{\operatorname{Unif}}
+\newcommand{\Poi}{\operatorname{Poi}}
 \newcommand{\Bin}{\operatorname{Bin}}
+\newcommand{\MSPE}{\operatorname{MSPE}}
 \newcommand\iid{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny iid}}}{\sim}}}
 
 % slight hack to make the independence symbol
@@ -49,27 +51,15 @@
 \setstretch{0.8}
 \scalefont{0.8}
 
-\section*{Moments}
-kth order central moment
-\begin{equation*}
-  \sigma_{k} = \E[(X-m_{1})^{k}]
-\end{equation*}
-
 \section*{Expectation}
 \begin{equation*}
   \E[g(X,Y)] = \sum_{y}\sum_{x}g(x,y)f_{X,Y}(x,y)
-\end{equation*}
-\begin{equation*}
-  \E[Y] = \int_{-\infty}^{\infty}\E[Y|X=x]f_{X}(x)\,dx
 \end{equation*}
 If $X\geq 0$ (continuous or discrete)
 \begin{equation*}
   \E[X] = \int_{0}^{\infty}(1-F_{X}(x))~dx
 \end{equation*}
 Conditional expectation
-\begin{equation*}
-  \E[Y|X=x] = \int y f_{y|x}(y|x)dy
-\end{equation*}
 \begin{equation*}
   \E[g(Y)|X=x] = \int g(y) f_{y|x}(y|x)dy
 \end{equation*}
@@ -79,9 +69,6 @@ Law of iterated expectation
 \end{equation*}
 \begin{equation*}
   \E[h(X)g(Y)] = \E[h(X)\E[g(Y)|X]]
-\end{equation*}
-\begin{equation*}
-  \E[Y]=\E[\E[Y|X]] = \sum_{x}\E[Y|X = x]f_{X}(x)
 \end{equation*}
 If \(X \independent Y\), then
 \begin{equation*}
@@ -110,21 +97,12 @@ Special case cont
 
 \section*{Expectation Algebra}
 \begin{equation*}
-  \E[X]=\E[X_{+}] - \E[X_{-}]~\text{if}~X_{+} \geq 0
+  \E[X]=\E[X_{+}] - \E[X_{-}]~\text{if}~X_{+} \geq 0,~\E[|X|] = \E[X_{+}] + \E[X_{-}]~\text{if}~X_{-} \geq 0
 \end{equation*}
 \begin{equation*}
-  \E[|X|] = \E[X_{+}] + \E[X_{-}]~\text{if}~X_{-} \geq 0
+  \E[a+bX] = a + b\E[X],~\E[aX+bY+c] = a\E[X]+b\E[Y]+c
 \end{equation*}
-\begin{equation*}
-  \E[a+bX] = a + b\E[X]
-\end{equation*}
-\begin{equation*}
-  \E[aX+bY+c] = a\E[X]+b\E[Y]+c
-\end{equation*}
-If \(X \independent Y\), then
-\begin{equation*}
-  \E[XY] = \E[X]\E[Y]
-\end{equation*}
+If \(X \independent Y\), then $\E[XY] = \E[X]\E[Y]$
 
 \section*{Variance Algebra}
 \begin{equation*}
@@ -133,14 +111,9 @@ If \(X \independent Y\), then
 \begin{equation*}
   \Var[X - Y] = \Var[X] - 2\Cov[X, Y] + \Var[Y]
 \end{equation*}
-If \(X \independent Y\), then
-\begin{equation*}
-  \Var[X + Y] = \Var[X] + \Var[Y]
-\end{equation*}
-If \(X \independent Y\), then
-\begin{equation*}
-  \Var[X - Y] = \Var[X] - \Var[Y]
-\end{equation*}
+If \(X \independent Y\), then $\Var[X + Y] = \Var[X] + \Var[Y]$
+
+If \(X \independent Y\), then $\Var[X - Y] = \Var[X] - \Var[Y]$
 \begin{equation*}
   \Var[XY] = \E[X^2] \cdot \E[Y^2] - {(\E[X] \cdot \E[Y])}^2
 \end{equation*}
@@ -158,19 +131,13 @@ If \(X \independent Y\), then
 
 
 \section*{Calc}
-Chain rule
-\begin{equation*}
-  f(g(x))' = f'(g(x))g'(x)
-\end{equation*}
-Product rule
-\begin{equation*}
-  (u \cdot v)' = u' \cdot v + u \cdot v'
-\end{equation*}
-Quotient rule
-\begin{equation*}
-  \left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)g(x) - f(x)g'(x)}{g(x)^2}
-\end{equation*}
-Indeterminate Forms \\
+Chain rule: $f(g(x))' = f'(g(x))g'(x)$
+
+Product rule: $(u \cdot v)' = u' \cdot v + u \cdot v'$
+
+Quotient rule: $\left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)g(x) - f(x)g'(x)}{g(x)^2}$
+
+Indeterminate Forms:
 $\frac{0}{0}$, $\frac{\pm\infty}{\pm\infty}$, $\infty-\infty$, $0*\infty$,
 $0^{0}$, $1^{\infty}$, $\infty^{0}$ \\
 Determinate Forms \\
@@ -289,11 +256,6 @@ Joint Density
 \end{equation*}
 
 \section*{PDF}
-Conditional PDF
-\begin{equation*}
-  f_{Y|X}(y|x) = \frac{f(x,y)}{f_{X}(x)} =
-  \frac{f(x,y)}{\int_{-\infty}^{\infty}f(x,y)\,dy} = \int_{-\infty}^{y} \frac{f(x,v)}{f_{X}(x)}\,dv
-\end{equation*}
 Joint PDF
 \begin{equation*}
   f(x,y) = \frac{\partial^{2}}{\partial y \partial x}F(x,y)
@@ -417,55 +379,32 @@ $\chi_{k}^{2}$ distribution (k degrees of freedom)
 \end{equation*}
 
 $t_{k}$ distribution (k degrees of freedom)\\
-if
-\begin{equation*}
-  Z \sim \mathcal{N}(0, 1),~V \sim \chi_{k}^{2},~Z \independent V
-\end{equation*}
-then
-\begin{equation*}
-  Q = \frac{Z}{\sqrt{V/k}} \sim t_{k}
-\end{equation*}
+if $Z \sim \mathcal{N}(0, 1),~V \sim \chi_{k}^{2},~Z \independent V$ then $Q = \frac{Z}{\sqrt{V/k}} \sim t_{k}$
 \begin{equation*}
   f_{Q}(q) = c_{1}{(1+\frac{q^{2}}{k})}^{-(k+1)/2}, q \in \mathbb{R}
 \end{equation*}
-where \(c_{1}>0\) is a constant
-\begin{equation*}
-  \frac{1}{1 + q^{2}} \sim \Cauchy(0,1) \stackrel{D}{=} t_{1}
-\end{equation*}
+where \(c_{1}>0\) is a constant: $\frac{1}{1 + q^{2}} \sim \Cauchy(0,1) \stackrel{D}{=} t_{1}$
 
 \begin{equation*}
   t_{k} \to \mathcal{N}(0,1) \text{ as } k\to\infty
 \end{equation*}
 
 \textbf{F Distribution} \\
-if
-\begin{equation*}
-  V \sim \chi^{2}_{m},~W \sim \chi^{2}_{k},~V \independent W
-\end{equation*}
-then
-\begin{equation*}
-  S = \frac{V/m}{W/k} \sim F_{m,k}
-\end{equation*}
+if $V \sim \chi^{2}_{m},~W \sim \chi^{2}_{k},~V \independent W$
+then $S = \frac{V/m}{W/k} \sim F_{m,k}$
 \begin{equation*}
   f_{S}(s) = c_{2}s^{(m-2)/2}(1+\frac{m}{k}s)^{-(k+m)/2},s>0
 \end{equation*}
 where $c_{2} > 0$ is a constant
 
 Special case:
-if \(m=1\), then
-\begin{equation*}
-  F_{m,k}=F{1,k} \stackrel{D}{=} t^{2}_{k}
-\end{equation*}
+if \(m=1\), then $F_{m,k}=F{1,k} \stackrel{D}{=} t^{2}_{k}$
 
 \section{Estimators}
-Estimate $\mu$
-\begin{equation*}
-  \overline{X}_{n} = \frac{1}{n}\sum_{i=1}^{n}X_{i}
-\end{equation*}
-Estimate $\sigma^{2}$
-\begin{equation*}
-  S_{n}^{2} = \frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\overline{X}_{n})^{2}
-\end{equation*}
+Estimate $\mu$: $\overline{X}_{n} = \frac{1}{n}\sum_{i=1}^{n}X_{i}$
+
+Estimate $\sigma^{2}$: $S_{n}^{2} = \frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\overline{X}_{n})^{2}$
+
 Suppose $\{X_{1},\ldots,X_{n}\}\iid\mathcal{N}(\mu,\sigma^{2})$, then
 \begin{equation*}
   \sqrt{n}\frac{\overline{X}_{n} - \mu}{\sigma}\sim\mathcal{N}(0,1),~~
@@ -473,10 +412,8 @@ Suppose $\{X_{1},\ldots,X_{n}\}\iid\mathcal{N}(\mu,\sigma^{2})$, then
   \E[S_{n}^{2}] = \sigma^{2},~~\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim \chi^{2}_{n-1}
 \end{equation*}
 And
-\begin{equation*}
-  \sqrt{n}\frac{\overline{X}_{n} - \mu}{\sigma}\sim \mathcal{N}(0,1),~~
-  \sqrt{n}\frac{\overline{X}_{n} - \mu}{S_{n}}\sim t_{n-1}
-\end{equation*}
+  $\sqrt{n}\frac{\overline{X}_{n} - \mu}{\sigma}\sim \mathcal{N}(0,1),~~
+  \sqrt{n}\frac{\overline{X}_{n} - \mu}{S_{n}}\sim t_{n-1}$
 
 \section{Sampling}
 Inverse Transform
@@ -570,26 +507,20 @@ For \(Z\sim\mathcal{N}(0,1)\): $\E[Z^{2k}] = (2k - 1)!!$
 if \(\lim\limits_{z\to\pm\infty} m(\mu + \sigma z)\phi(z)=0\), then: $Cov(X,m(X)) = \sigma^{2}\E[m'(X)]$
 
 \section*{CLT}
-Suppose \(\{X_{1},\ldots,X_{n}\} \iid X\), with \(\mu = \E[X]\) and \(\sigma^{2} = \Var(X) \in (0, \infty)\). Define \(Z_{n}=\sqrt{n}\frac{\overline{X}_{n}-\mu}{\sigma}\). Then
-\begin{equation*}
-  Z_{n} \overset{D}{\longrightarrow} Z\sim\mathcal{N}(0,1)
-\end{equation*}
+Suppose \(\{X_{1},\ldots,X_{n}\} \iid X\), with \(\mu = \E[X]\) and \(\sigma^{2}
+= \Var(X) \in (0, \infty)\). Define
+\(Z_{n}=\sqrt{n}\frac{\overline{X}_{n}-\mu}{\sigma}\). Then: $Z_{n} \overset{D}{\longrightarrow} Z\sim\mathcal{N}(0,1)$
 
 \section*{LLN}
-Suppose \(\{X_{1},\ldots,X_{n}\} \iid X\), with \(\mu = \E[X]\). Then
-\begin{equation*}
-  \overline{X}_{n} \overset{D}{\longrightarrow} \mu
-\end{equation*}
+Suppose \(\{X_{1},\ldots,X_{n}\} \iid X\), with \(\mu = \E[X]\). Then: $\overline{X}_{n} \overset{D}{\longrightarrow} \mu$
 
 \section*{MGFs}
 Gamma: $\Gamma(\lambda,\alpha) =
 \left(\frac{\lambda}{\lambda-t}\right)^{\alpha}, t < \lambda$
-
 Binomial: $(q+pe^{t})^{n}$
-
 Poisson: $\exp\{\lambda(e^{t} - 1)\}$
-
 Geometric: $\frac{pe^{t}}{1-(1-p)e^{t}}, t<-\ln(1-p)$
+Exponential: $\frac{\lambda}{\lambda-t}, t<\lambda$
 
 \section*{EDF}
 $F(x)=P(X\leq x)=\E[I(X\leq x)]$, $\hat{\mathbb{F}}_{n}(x) =
@@ -600,5 +531,65 @@ $\Var(\hat{\mathbb{F}}_{n}(x)) = \frac{1}{n}F(x)(1-F(x))$
 LLN: $\hat{\mathbb{F}}_{n}(x) \overset{D}{\to} F(x)$, CLT: If $0<F(x)<1$, then
 $\sqrt{n}\frac{\hat{\mathbb{F}}_{n}(x) - F(x)}{\sqrt{F(x)(1-F(x))}}$
 
+\section*{Inequalities}
+Chebychev: $\P(|X|\geq a) \leq \frac{\E(|X|^r)}{a^r}\text{, for any }a>0,~r>0$
+
+Markov: $\P(|X|\geq a) \leq \frac{E(|X|)}{a}$
+
+Chernoff: $\P(X\geq a)\leq \inf_{s>0}\frac{\E(M_{X}(s))}{e^{sa}}=\inf_{s>0}\frac{M_{X}(s)}{e^{sa}}$
+
+\section*{Convergence}
+Distribution
+\begin{equation*}
+  \lim_{n\to\infty}F_{X_{n}}(x)=F_{X}(x)\forall x \text{ where }F_{X}\text{ is continuous}
+\end{equation*}
+Continuity Theorem: $\lim_{n\to\infty}M_{X_{n}}(t)=F_{X}(t)\forall t \in (-a,a) \text{ with } a>0$
+\begin{equation*}
+  \lim_{n\to\infty}P_{X_{n}}(k)=P_{X}(k)\forall k \in \{0, 1, 2, \ldots\}
+\end{equation*}
+Probability
+\begin{equation*}
+  \lim_{n\to\infty}\P(|X_n-X|\geq \epsilon) = 0~\forall\epsilon > 0
+\end{equation*}
+Slutsky's Theorem (If $Z_n\overset{D}{\longrightarrow}Z$ and
+$U_n\overset{D}{\longrightarrow}U$, where $U$ const, $U\neq 0$ div)
+\begin{equation*}
+  Z_n+U_n\overset{D}{\longrightarrow}Z+C,~Z_n-U_n\overset{D}{\longrightarrow}Z-C,~Z_n/U_n\overset{D}{\longrightarrow}Z/C,~Z_{n}U_{n}\overset{D}{\longrightarrow}ZC
+\end{equation*}
+Rth mean (also, if $r>s\geq 1 \text{, then } X_n\overset{r}{\longrightarrow}
+X\implies X_n\overset{s}{\longrightarrow}X$)
+\begin{equation*}
+  \lim_{n\to\infty}\E(|X_n-X|^r)=0
+\end{equation*}
+
+\section*{Prediction}
+MSPE Pred and its MSPE $\hat{g}(\boldsymbol{X}) = \E(Y|\boldsymbol{X}) = \mu(\boldsymbol{X}),~\MSPE(\hat{g})=\E(\Var(Y|\boldsymbol{X}))$
+
+MSPE Model Decomposition:
+\begin{equation*}
+  \MSPE(g) = \E[(Y-g(\boldsymbol{X}))^2] = \E[(Y-\mu(\boldsymbol{X}))^2] + \E[(\mu(\boldsymbol{X})-g(\boldsymbol{X}))^2]
+\end{equation*}
+
+Variance Decomposition: $\Var(Y) = \Var(\E[Y|\boldsymbol{X}]) + \E[\Var(Y|\boldsymbol{X})]$
+
+Model Decomposition: $Y=\E[Y|\boldsymbol{X}] + (Y - \E[Y|\boldsymbol{X}]) = \mu(\boldsymbol{X}) + \epsilon$
+
+Linear Pred: $\hat{g}_L(X)=\mu_{Y}+\rho\sigma_{Y}\frac{(X-\mu_X)}{\sigma_X},~MSPE(\hat{g}_L)=(1-\rho^2)\sigma^2_Y$
+
+\section*{Poisson Process}
+
+Number of events in interval $[0,t]$: $N(t)\sim\Poi(\lambda t)$
+
+Num events in interval (indep if ivls non-overlapping) $(s, t]$: $N(t)-N(s)$
+
+Stationary Incr:
+$N(t+h)-N(t)\overset{D}{=}N(h)-N(0)\overset{D}{=}N\sim\Poi(\lambda h),~t\geq 0$
+
+Arrival t: $T_n=\sum_{i=1}^n X_j \sim \Gamma(\lambda, n)\implies \E[T_n]=n/\lambda,~\Var(T_n)=n/\lambda^2$
+
+Arrival t: $\P(T_n > t) = \P(\Gamma(\lambda, n) > t) =
+\sum_{k=0}^{n-1}\frac{(\lambda t)^k}{k!}e^{-\lambda t}$
+
+Inter Arrival t: $X_1,X_2,\ldots\iid\Exp(\lambda)$, $X_j=T_j-T_{j-1},~j\geq 1$
 
 \end{document}
